@@ -1,8 +1,17 @@
 import streamlit as st
-from produtos import dashboard
+from páginas import *
+from páginas.produtos import dashboard_produtos
+from páginas.vendas import dashboard_vendas
+from páginas.devolucoes import dashboard_devolucoes
+from assets import *
 
-# Lista de usuários e senhas permitidos
-usuarios_autorizados = {'igor':'igor123', 'josimar':'josimar123', 'kayene': 'kayene123'}
+
+
+# Lista de usuários permitidos
+usuarios_autorizados = list(st.secrets['users'].keys())
+
+# Lista de senhas correspondentes
+senhas_autorizadas = list(st.secrets['users'].values())
 
 
 
@@ -15,11 +24,12 @@ def main():
     if not st.session_state.autenticado:
         login_form()
     else:
-        dashboard()
+        st.set_page_config(layout="wide")
+        home()
         # Adicione aqui o código para a área restrita após o login.
         
-    #with open('style.css') as f:
-        #st.markdown(f"<style>{f.read()} </style>", unsafe_allow_html=True)
+    with open('assets/style.css') as f:
+        st.markdown(f"<style>{f.read()} </style>", unsafe_allow_html=True)
 
 def login_form():
     st.subheader("Faça o Login")
@@ -39,8 +49,25 @@ def login_form():
             st.error("Usuário ou senha incorretos")
 
 def autenticar_usuario(usuario, senha):
-    # Verifica se o usuário e a senha correspondem à lista permitida
-    return usuario in usuarios_autorizados and usuarios_autorizados[usuario] == senha
+    # Verifica se o usuário e a senha correspondem às listas permitidas
+    if usuario in usuarios_autorizados:
+        index = usuarios_autorizados.index(usuario)
+        if senhas_autorizadas[index] == senha:
+            return True
+    return False
+
+def home():
+    selection = st.sidebar.selectbox('Navegação', ['Produtos', 'Devoluções'])
+    
+    st.sidebar.image("assets/logo-livre-e-leve.png", width=150)
+
+    if selection == "Produtos":
+        dashboard_produtos()
+    elif selection == "Vendas":
+        dashboard_vendas()
+    elif selection == "Devoluções":
+        dashboard_devolucoes()
+
 
 if __name__ == "__main__":
     main()
