@@ -6,13 +6,11 @@ from páginas.devolucoes import dashboard_devolucoes
 from assets import *
 
 
-
 # Lista de usuários permitidos
 usuarios_autorizados = list(st.secrets['users'].keys())
 
 # Lista de senhas correspondentes
 senhas_autorizadas = list(st.secrets['users'].values())
-
 
 
 def main():
@@ -31,6 +29,7 @@ def main():
     with open('assets/style.css') as f:
         st.markdown(f"<style>{f.read()} </style>", unsafe_allow_html=True)
 
+
 def login_form():
     st.subheader("Faça o Login")
 
@@ -48,6 +47,7 @@ def login_form():
         else:
             st.error("Usuário ou senha incorretos")
 
+
 def autenticar_usuario(usuario, senha):
     # Verifica se o usuário e a senha correspondem às listas permitidas
     if usuario in usuarios_autorizados:
@@ -55,6 +55,7 @@ def autenticar_usuario(usuario, senha):
         if senhas_autorizadas[index] == senha:
             return True
     return False
+
 
 def home():
     selection = st.sidebar.selectbox('Navegação', ['Produtos', 'Devoluções'])
