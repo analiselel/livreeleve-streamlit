@@ -116,7 +116,7 @@ def dashboard_produtos():
     col1, col2 = st.columns([4, 1]) # 80% e 20% respectivamente
 
     # Mostra a tabela_anb na primeira coluna
-    col1.dataframe(tabela_anb, column_config=column_config, height=260, hide_index=True)
+    col1.dataframe(tabela_anb, column_config=column_config, height=256, hide_index=True)
 
     #==================================================TABELA DE COMPRADOS EM CONJUNTO==================================================#
 
